@@ -2,11 +2,20 @@ import type { LoadContext, Plugin } from "@docusaurus/types";
 import { parseOpenRPCDocument } from "@open-rpc/schema-utils-js";
 import { OptionsSchema } from "./src/options";
 import type { OpenrpcDocument } from "@open-rpc/meta-schema";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { generateMarkdownDoc } from "./src/openRPC";
 
 type PluginOptions = {
 	id?: string;
-	openRPCPath?: string;
-	outputPath?: string;
+	openRPCPath: string;
+	outputPath: string;
+	category: {
+		position?: number;
+		label?: string;
+		collapsible?: boolean;
+		collapsed?: boolean;
+		className?: string;
+	};
 };
 
 type LoadedContent = {
@@ -23,12 +32,53 @@ async function pluginOpenRPCDocs(
 		async loadContent() {
 			const rpcDocument = await parseOpenRPCDocument(options.openRPCPath);
 
-			return { openrpc: rpcDocument };
+			return {
+				openrpc: rpcDocument,
+			};
 		},
 
 		async contentLoaded({ content, actions }) {
-			// The contentLoaded hook is done after loadContent hook is done.
-			// `actions` are set of functional API provided by Docusaurus (e.g. addRoute)
+			const { openrpc } = content;
+
+			const outputPath = `${options.outputPath}`;
+			// check the outputPath dir exists
+
+			if (!existsSync(outputPath)) {
+				try {
+					mkdirSync(outputPath);
+				} catch (err) {
+					throw new Error(`Failed to create dir ${outputPath}`);
+				}
+			}
+
+			for (const method of openrpc.methods) {
+				if (!("$ref" in method)) {
+					const content = generateMarkdownDoc({
+						title: method.name,
+						description: method.description || "",
+						sidebar_label: method.name,
+						content: method.name,
+					});
+
+					const fileName = `${method.name}.mdx`;
+					const filePath = `${outputPath}/${fileName}`;
+
+					try {
+						writeFileSync(filePath, content);
+					} catch (err) {
+						throw new Error(`Failed to write ${filePath}`);
+					}
+				}
+			}
+			// _category_
+			try {
+				writeFileSync(
+					`${outputPath}/_category_.json`,
+					JSON.stringify({ ...options.category }, null, 2),
+				);
+			} catch (err) {
+				throw new Error(`Failed to write ${outputPath}/sidebar.js`);
+			}
 		},
 
 		async postBuild(props) {
