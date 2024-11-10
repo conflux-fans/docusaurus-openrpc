@@ -138,6 +138,11 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+
+  plugins: [['docusaurus-openrpc', {
+    id: 'openrpc',
+    openRPCPath: './cfx.json',
+  }]],
 };
 
 export default config;
