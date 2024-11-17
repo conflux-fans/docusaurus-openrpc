@@ -3,7 +3,6 @@ export type GenerateMarkdownDocParameters = {
 	title: string;
 	description: string;
 	sidebar_label: string;
-	content: string;
 };
 export function generateMarkdownDoc(args: GenerateMarkdownDocParameters) {
 	const template = `---
@@ -13,8 +12,9 @@ description: {{description}}
 {{/description}}
 sidebar_label: {{sidebar_label}}
 ---
+import Content from '@theme/content'
 
-{{content}}
+<Content />
 
     `;
 

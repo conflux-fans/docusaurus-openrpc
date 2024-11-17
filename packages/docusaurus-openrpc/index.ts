@@ -4,6 +4,12 @@ import { OptionsSchema } from "./src/options";
 import type { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { generateMarkdownDoc } from "./src/openRPC";
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
+import Content from './src/components/content'
+import path from "path";
+
+export {Content}
 
 type PluginOptions = {
 	id?: string;
@@ -57,7 +63,6 @@ async function pluginOpenRPCDocs(
 						title: method.name,
 						description: method.description || "",
 						sidebar_label: method.name,
-						content: method.name,
 					});
 
 					const fileName = `${method.name}.mdx`;
@@ -110,10 +115,11 @@ async function pluginOpenRPCDocs(
 		// 	// Paths to watch.
 		// },
 
-		// getThemePath() {
-		// 	// Returns the path to the directory where the theme components can
-		// 	// be found.
-		// },
+		getThemePath() {
+			// Returns the path to the directory where the theme components can
+			// be found.
+			return path.join(__dirname, './src/components');
+		},
 
 		// getClientModules() {
 		// 	// Return an array of paths to the modules that are to be imported
