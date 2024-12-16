@@ -63,6 +63,7 @@ async function pluginOpenRPCDocs(
 						title: method.name,
 						description: method.description || "",
 						sidebar_label: method.name,
+						method: JSON.stringify(method)
 					});
 
 					const fileName = `${method.name}.mdx`;
