@@ -1,14 +1,16 @@
 import { MethodObject } from "@open-rpc/meta-schema";
 import { render } from "mustache";
 export type GenerateMarkdownDocParameters = {
-  title: string;
-  description: string;
   sidebar_label: string;
-  method: string;
+  method: MethodObject;
 };
-export function generateMarkdownDoc(args: GenerateMarkdownDocParameters) {
+export function generateMarkdownDoc({
+  method,
+  sidebar_label,
+}: GenerateMarkdownDocParameters) {
+  const { name, summary, description } = method;
   const template = `---
-title: {{title}}
+title: {{name}}
 {{#description}}
 description: {{description}}
 {{/description}}
@@ -16,9 +18,20 @@ sidebar_label: {{sidebar_label}}
 ---
 import Content from '@theme/content'
 
+# {{name}}
+
+{{summary}}
+
+
 <Content method={ {{{method}}} }/>
 
     `;
 
-  return render(template, args);
+  return render(template, {
+    method: JSON.stringify(method),
+    name,
+    summary,
+    description,
+    sidebar_label,
+  });
 }
