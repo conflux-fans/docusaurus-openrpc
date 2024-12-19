@@ -18,11 +18,6 @@ sidebar_label: {{sidebar_label}}
 ---
 import Content from '@theme/content'
 
-# {{name}}
-
-{{summary}}
-
-
 <Content method={ {{{method}}} }/>
 
     `;
