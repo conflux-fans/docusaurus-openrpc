@@ -13,6 +13,7 @@ function Examples({ examples }: Props) {
       <h2>{examples.length > 1 ? "Examples" : "Example"}</h2>
 
       <h3>Request</h3>
+      
       <h3>Response</h3>
     </div>
   );
