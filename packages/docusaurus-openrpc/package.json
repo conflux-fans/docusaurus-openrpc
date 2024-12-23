@@ -2,9 +2,9 @@
   "name": "docusaurus-openrpc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node copyUntypedFiles.mjs",
     "build:watch": "tsc --watch"
   },
   "keywords": [],
@@ -16,14 +16,17 @@
     "@types/mustache": "^4.2.5",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
+    "fs-extra": "^11.2.0",
     "typescript": "~5.6.2"
   },
   "dependencies": {
     "@docusaurus/utils-validation": "^3.6.1",
     "@open-rpc/meta-schema": "^1.14.9",
     "@open-rpc/schema-utils-js": "^2.0.5",
+    "@stoplight/json-ref-resolver": "^3.1.6",
+    "docusaurus-json-schema-plugin": "^1.12.2",
+    "json-schema-typed": "^8.0.1",
     "mustache": "^4.2.0",
-    "node-polyfill-webpack-plugin": "^4.0.0",
     "react": "^18.0.0"
   }
 }

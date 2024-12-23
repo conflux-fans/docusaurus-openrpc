@@ -1,5 +1,6 @@
 import React from "react";
 import { MethodObject } from "@open-rpc/meta-schema";
+import { Param } from "./param";
 
 interface Props {
   params: MethodObject["params"];
@@ -10,8 +11,13 @@ function Params({ params }: Props) {
 
   return (
     <div>
-      <div style={{ display: "flex" }}>
+      <div>
         <h2>Params </h2>
+        <div>
+          {params.map((param, key) => (
+            <Param param={param} key={key}/>
+          ))}
+        </div>
       </div>
     </div>
   );

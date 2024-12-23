@@ -1,6 +1,8 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"types": ["node", "@docusaurus/module-type-aliases"]
-	}
+		"types": ["node", "@docusaurus/module-type-aliases"],
+		"outDir": "./lib"
+	},
+	
 }

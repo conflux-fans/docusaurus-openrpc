@@ -7,6 +7,7 @@ interface Props {
 }
 
 const Content = ({ method }: Props) => {
+  console.log(method);
   return (
     <div>
       <p>{method.summary}</p>

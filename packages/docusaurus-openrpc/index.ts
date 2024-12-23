@@ -4,7 +4,6 @@ import { OptionsSchema } from "./src/options";
 import type { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { generateMarkdownDoc } from "./src/openRPC";
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 import Content from "./src/components/content";
 import path from "path";
