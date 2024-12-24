@@ -1,14 +1,9 @@
 import type { LoadContext, Plugin } from "@docusaurus/types";
 import { parseOpenRPCDocument } from "@open-rpc/schema-utils-js";
-import { OptionsSchema } from "./src/options";
+import { OptionsSchema } from "./options";
 import type { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { generateMarkdownDoc } from "./src/openRPC";
-
-import Content from "./src/components/content";
-import path from "path";
-
-export { Content };
+import { generateMarkdownDoc } from "./openRPC";
 
 type PluginOptions = {
   id?: string;
@@ -114,9 +109,8 @@ async function pluginOpenRPCDocs(
     // },
 
     getThemePath() {
-      // Returns the path to the directory where the theme components can
-      // be found.
-      return path.join(__dirname, "./src/components");
+      // Where compiled JavaScript output lives
+      return "../lib/components";
     },
 
     // getClientModules() {

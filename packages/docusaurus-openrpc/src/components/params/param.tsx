@@ -1,6 +1,6 @@
 import React from "react";
 import { ContentDescriptorOrReference } from "@open-rpc/meta-schema";
-import JSONSchemaViewer from 'docusaurus-json-schema-plugin/lib/theme/JSONSchemaViewer'
+import JSONSchemaViewer from "../JSONSchemaViewer";
 interface Props {
   param: ContentDescriptorOrReference;
 }

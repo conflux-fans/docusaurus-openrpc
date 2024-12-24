@@ -2,7 +2,7 @@
   "name": "docusaurus-openrpc",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "build": "tsc && node copyUntypedFiles.mjs",
     "build:watch": "tsc --watch"

@@ -1,6 +1,6 @@
 import type { LoadContext, Plugin } from "@docusaurus/types";
 import type { OpenrpcDocument } from "@open-rpc/meta-schema";
-import Content from "./src/components/content";
+import Content from "./components/content";
 export { Content };
 type PluginOptions = {
     id?: string;

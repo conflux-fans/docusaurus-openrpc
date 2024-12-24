@@ -2,9 +2,9 @@ import React from "react"
 
 import Translate from "@docusaurus/Translate"
 
-import { AndLabel } from "@theme/JSONSchemaViewer/labels"
+import { AndLabel } from "../../labels"
 
-import type { JSONSchema } from "@theme/JSONSchemaViewer/types"
+import type { JSONSchema } from "../../types"
 
 type Props = {
   schema: Exclude<JSONSchema, true | false>
