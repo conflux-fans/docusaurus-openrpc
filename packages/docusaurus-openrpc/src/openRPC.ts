@@ -16,7 +16,7 @@ description: {{description}}
 {{/description}}
 sidebar_label: {{sidebar_label}}
 ---
-import Content from '@theme/content';
+import Content from '@theme/Content';
 
 <Content method={ {{{method}}} }/>
 
