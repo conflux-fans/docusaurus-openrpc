@@ -1,7 +1,7 @@
 import { MethodObject } from "@open-rpc/meta-schema";
 import React from "react";
-import Params from "../params";
-import Examples from "../examples";
+import Params from "../Params";
+import Examples from "../Examples";
 import './index.css'
 interface Props {
   method: MethodObject;
