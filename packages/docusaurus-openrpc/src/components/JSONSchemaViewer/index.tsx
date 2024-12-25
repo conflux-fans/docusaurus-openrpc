@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Resolver } from "@stoplight/json-ref-resolver";
 
 import { CreateNodes, Collapsible } from "./components";
 import {
@@ -10,7 +9,6 @@ import {
 import type { JSONSchema } from "./types";
 import type { JSVOptions } from "./contexts";
 import { LoadingLabel, ErrorOccurredLabel } from "./labels";
-import type { IResolveOpts } from "@stoplight/json-ref-resolver/types";
 
 export type Props = {
   /**
@@ -21,7 +19,6 @@ export type Props = {
    * To customize the ref resolving
    * By default, only inline references will be dereferenced by @stoplight/json-ref-resolver
    */
-  resolverOptions?: IResolveOpts;
   /**
    * To customize the viewer itself
    */
@@ -94,36 +91,14 @@ function JSONSchemaInnerViewer(props: InnerViewerProperties): JSX.Element {
 
 // Entry point
 export default function JSONSchemaViewer(props: Props): JSX.Element {
-  const { schema: originalSchema, resolverOptions, viewerOptions } = props;
+  const { schema, viewerOptions } = props;
 
-  const [error, setError] = useState(undefined as undefined | Error);
-  const [resolvedSchema, setResolvedSchema] = useState(
-    undefined as undefined | JSONSchema
+  return (
+    <JSONSchemaInnerViewer
+      //@ts-ignore
+      schema={schema}
+      viewerOptions={viewerOptions}
+      className={props.className}
+    />
   );
-
-  useEffect(() => {
-    // Time to do the job
-    new Resolver()
-      .resolve(originalSchema, resolverOptions)
-      .then((result) => {
-        setResolvedSchema(result.result);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-  }, []);
-
-  if (error !== undefined) {
-    return <ErrorOccurred error={error} />;
-  } else if (resolvedSchema === undefined) {
-    return <LoadingLabel />;
-  } else {
-    return (
-      <JSONSchemaInnerViewer
-        schema={resolvedSchema}
-        viewerOptions={viewerOptions}
-        className={props.className}
-      />
-    );
-  }
 }

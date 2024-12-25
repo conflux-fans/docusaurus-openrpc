@@ -4,6 +4,7 @@ import { OptionsSchema } from "./options";
 import type { OpenrpcDocument } from "@open-rpc/meta-schema";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { generateMarkdownDoc } from "./openRPC";
+import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
 
 type PluginOptions = {
   id?: string;
@@ -56,6 +57,10 @@ async function pluginOpenRPCDocs(
           const content = generateMarkdownDoc({
             sidebar_label: method.name,
             method: method,
+            servers: (openrpc.servers || []).map((serve) => ({
+              name: serve.name || "",
+              url: serve.url || "",
+            })),
           });
 
           const fileName = `${method.name}.mdx`;
@@ -98,11 +103,15 @@ async function pluginOpenRPCDocs(
     // 	// https://webpack.js.org/configuration/dev-server/#devserverafter
     // },
 
-    // configureWebpack(config, isServer, utils, content) {
-    // 	// Modify internal webpack config. If returned value is an Object, it
-    // 	// will be merged into the final config using webpack-merge;
-    // 	// If the returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
-    // },
+    configureWebpack(config, isServer, utils, content) {
+      return {
+        plugins: [
+          new MonacoWebpackPlugin({
+            languages: ["javascript", "python", "go", "shell"],
+          }),
+        ],
+      };
+    },
 
     // getPathsToWatch() {
     // 	// Paths to watch.

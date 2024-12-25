@@ -1,12 +1,14 @@
-import { MethodObject } from "@open-rpc/meta-schema";
+import { MethodObject, Servers } from "@open-rpc/meta-schema";
 import { render } from "mustache";
 export type GenerateMarkdownDocParameters = {
   sidebar_label: string;
   method: MethodObject;
+  servers: { name: string; url: string }[];
 };
 export function generateMarkdownDoc({
   method,
   sidebar_label,
+  servers,
 }: GenerateMarkdownDocParameters) {
   const { name, summary, description } = method;
   const template = `---
@@ -18,7 +20,7 @@ sidebar_label: {{sidebar_label}}
 ---
 import Content from '@theme/Content';
 
-<Content method={ {{{method}}} }/>
+<Content method={ {{{method}}} } servers={ {{{servers}}} }/>
 
     `;
 
@@ -28,5 +30,6 @@ import Content from '@theme/Content';
     summary,
     description,
     sidebar_label,
+    servers: JSON.stringify(servers),
   });
 }
