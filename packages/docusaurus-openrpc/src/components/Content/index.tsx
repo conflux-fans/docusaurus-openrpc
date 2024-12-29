@@ -19,11 +19,13 @@ interface Props {
 }
 
 const Content = ({ method, servers }: Props) => {
-  console.log(method);
   return (
     <div>
       <p>{method.summary}</p>
-      <Playground method={method} servers={servers} />
+      <Playground
+        method={method}
+        servers={servers.filter((serve) => serve.url.startsWith("http"))}
+      />
       <Params params={method.params} />
       <Result result={method.result} />
       <Examples examples={method.examples} method={method} />

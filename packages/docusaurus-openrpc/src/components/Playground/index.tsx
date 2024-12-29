@@ -114,15 +114,28 @@ const getDefaultValue = (example?: ExamplePairingOrReference) => {
 };
 
 const Playground = ({ servers, method }: Props) => {
-  const [url, setUrl] = useState(
-    servers.filter((serve) => serve.url.startsWith("http"))[0]?.url || ""
-  );
+  const [url, setUrl] = useState(servers[0]?.url || "");
   const [formData, setFormData] = useState(
     getDefaultValue(method.examples?.[0])
   );
 
+  const [res, setRes] = useState<Record<string, any> | null>(null);
+
   return (
     <div>
+      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+        {servers.map((server, index) => {
+          return (
+            <button
+              onClick={() => setUrl(server.url)}
+              key={index}
+              className="button button--sm button--secondary"
+            >
+              {server.name}
+            </button>
+          );
+        })}
+      </div>
       <input
         className="form-control"
         value={url}
@@ -152,6 +165,33 @@ const Playground = ({ servers, method }: Props) => {
                     formatPlaygroundParams(method.params, formData)
                   )}
                 </CodeBlock>
+
+                {code.run && (
+                  <button
+                    className="button button--primary"
+                    onClick={() => {
+                      if (code.run) {
+                        code
+                          .run(
+                            url,
+                            method.name,
+                            formatPlaygroundParams(method.params, formData)
+                          )
+                          .then((res) => setRes(res));
+                      }
+                    }}
+                  >
+                    Send Request
+                  </button>
+                )}
+
+                <div style={{ marginTop: "10px" }}>
+                  {res && (
+                    <CodeBlock language="json">
+                      {JSON.stringify(res, null, 2)}
+                    </CodeBlock>
+                  )}
+                </div>
               </div>
             </TabItem>
           );
